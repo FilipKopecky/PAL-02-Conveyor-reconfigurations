@@ -44,7 +44,7 @@ public class Alg {
         }
     }
 
-    public void createGraphComponent()
+    public final void createGraphComponent()
     {
         for (Component c: sccs) {
             for (TNode node:c.nodes) {
@@ -59,15 +59,26 @@ public class Alg {
         }
     }
 
+    public final void calculate()
+    {
+        int reconfs = 0;
+        for (Component c:sccs) {
+            if(c.invertedNeigbors.size()==0)
+                reconfs+=c.cost;
+        }
+        System.out.println(reconfs);
+
+    }
+
     public final void Dijkstra(int source) {
-        graph[source].cost = 0;
-        PriorityQueue<TNode> priorityQueue = new PriorityQueue<>();
-        priorityQueue.offer(graph[source]);
+        graph[source].scc.cost = 0;
+        PriorityQueue<Component> priorityQueue = new PriorityQueue<>();
+        priorityQueue.offer(graph[source].scc);
 
         while (!priorityQueue.isEmpty()) {
-            TNode u = priorityQueue.poll();
-            index = u.index;
-            for (TNode neighbour : u.succ) {
+            Component u = priorityQueue.poll();
+
+            for (Component neighbour : u.neigbours) {
                 int alt = u.cost;
                 if (alt < neighbour.cost) {
                     neighbour.cost = alt;
@@ -75,20 +86,16 @@ public class Alg {
                     priorityQueue.offer(neighbour);
                 }
             }
-            for (TNode invertedNeigbour : u.inverted) {
+            for (Component invertedNeigbour : u.invertedNeigbors) {
                 int alt = u.cost + 1;
                 if (alt < invertedNeigbour.cost) {
                     invertedNeigbour.cost = alt;
-
                     priorityQueue.offer(invertedNeigbour);
                 }
             }
         }
     }
 
-    public void calc() {
-
-    }
 
 
     private void push(TNode v) {

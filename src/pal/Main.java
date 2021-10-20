@@ -11,8 +11,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //TODO: add custom fast reader
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("datasets/pub01.in")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("datasets/pub10.in")));
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+
+
 
         int numPoints = Integer.parseInt(tokenizer.nextToken());
         int numConveyor = Integer.parseInt(tokenizer.nextToken());
@@ -34,20 +36,22 @@ public class Main {
 
         }
 
-
+       // long start = System.nanoTime();
         Alg alg = new Alg(graph, numPoints);
 
         for (int i = 0; i < numPoints; i++) {
-            if(graph[i].tIndex==0)
-            {
+            if (graph[i].tIndex == 0) {
                 alg.find_scc(graph[i]);
             }
         }
 
-      alg.createGraphComponent();
-        //  alg.Dijkstra(idCentral);
-
-        System.out.println("Conveyor");
+        alg.createGraphComponent();
+        alg.Dijkstra(idCentral);
+        alg.calculate();
+      /**  long finish = System.nanoTime();
+        long timeElapsed = finish - start;
+        System.out.println(timeElapsed/1000000);
+**/
         // write your code here
     }
 }
