@@ -8,14 +8,14 @@ public class Alg {
     public int index;
     public int scc;
     public TNode[] graph;
-    public Component[] components;
+    public ArrayList<Component> sccs;
 
     public Alg(TNode[] graph, int size) {
         this.stackTop = null;
         index = 0;
         this.graph = graph;
         this.scc = 0;
-        this.components = new Component[size];
+        this.sccs = new ArrayList<>();
     }
 
 
@@ -37,13 +37,25 @@ public class Alg {
             Component component = new Component(Integer.MAX_VALUE);
             do {
                 x = pop(stackTop);
-                //NOT NEEDED
                 component.nodes.add(x);
-                //  component.add(x);
-                components[x.index] = component;
+                x.scc = component;
             } while (x != v);
+            sccs.add(component);
+        }
+    }
 
-
+    public void createGraphComponent()
+    {
+        for (Component c: sccs) {
+            for (TNode node:c.nodes) {
+                for (TNode neigbor:graph[node.index].succ) {
+                    if(node.scc!=neigbor.scc)
+                    {
+                        c.neigbours.add(neigbor.scc);
+                        neigbor.scc.invertedNeigbors.add(node.scc);
+                    }
+                }
+            }
         }
     }
 
@@ -59,7 +71,7 @@ public class Alg {
                 int alt = u.cost;
                 if (alt < neighbour.cost) {
                     neighbour.cost = alt;
-                    components[neighbour.index].cost = alt;
+
                     priorityQueue.offer(neighbour);
                 }
             }
@@ -67,16 +79,17 @@ public class Alg {
                 int alt = u.cost + 1;
                 if (alt < invertedNeigbour.cost) {
                     invertedNeigbour.cost = alt;
-                    components[invertedNeigbour.index].cost = alt;
+
                     priorityQueue.offer(invertedNeigbour);
                 }
             }
         }
     }
 
-    public void calculateReconfigurations() {
+    public void calc() {
 
     }
+
 
     private void push(TNode v) {
         v.pred = stackTop;

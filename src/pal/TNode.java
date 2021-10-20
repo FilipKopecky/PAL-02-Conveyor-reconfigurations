@@ -11,6 +11,8 @@ public class TNode implements Comparable<TNode>  {
     ArrayList<TNode> succ;
     ArrayList<TNode> inverted;
     int cost;
+    Component scc;
+
 
     public TNode(int index, int lowlink, TNode pred, boolean instack) {
         this.tIndex = 0;

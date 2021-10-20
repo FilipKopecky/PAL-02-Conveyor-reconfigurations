@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 public class Component {
     int cost;
-    //NOT NEEDED
     ArrayList<TNode> nodes;
-    boolean toBeCalculated;
+    ArrayList<Component> neigbours;
+    ArrayList<Component> invertedNeigbors;
+
     public Component(int cost)
     {
         this.cost=cost;
-        nodes= new ArrayList<>();
-        this.toBeCalculated = false;
+        nodes = new ArrayList<>();
+        neigbours = new ArrayList<>();
+        invertedNeigbors = new ArrayList<>();
     }
 }

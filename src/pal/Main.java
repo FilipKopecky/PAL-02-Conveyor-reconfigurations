@@ -44,7 +44,8 @@ public class Main {
             }
         }
 
-        alg.Dijkstra(idCentral);
+      alg.createGraphComponent();
+        //  alg.Dijkstra(idCentral);
 
         System.out.println("Conveyor");
         // write your code here
