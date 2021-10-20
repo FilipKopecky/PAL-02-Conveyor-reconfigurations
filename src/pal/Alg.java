@@ -1,18 +1,21 @@
 package pal;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class Alg {
     public TNode stackTop;
     public int index;
     public int scc;
     public TNode[] graph;
+    public Component[] components;
 
-    public Alg(TNode[] graph) {
+    public Alg(TNode[] graph, int size) {
         this.stackTop = null;
         index = 0;
         this.graph = graph;
         this.scc = 0;
+        this.components = new Component[size];
     }
 
 
@@ -31,13 +34,48 @@ public class Alg {
         if (v.lowlink == v.tIndex) {
             scc++;
             TNode x;
-            ArrayList<TNode> component = new ArrayList<>();
+            Component component = new Component(Integer.MAX_VALUE);
             do {
                 x = pop(stackTop);
-                component.add(x);
+                //NOT NEEDED
+                component.nodes.add(x);
+                //  component.add(x);
+                components[x.index] = component;
             } while (x != v);
-            System.out.println("Component created");
+
+
         }
+    }
+
+    public final void Dijkstra(int source) {
+        graph[source].cost = 0;
+        PriorityQueue<TNode> priorityQueue = new PriorityQueue<>();
+        priorityQueue.offer(graph[source]);
+
+        while (!priorityQueue.isEmpty()) {
+            TNode u = priorityQueue.poll();
+            index = u.index;
+            for (TNode neighbour : u.succ) {
+                int alt = u.cost;
+                if (alt < neighbour.cost) {
+                    neighbour.cost = alt;
+                    components[neighbour.index].cost = alt;
+                    priorityQueue.offer(neighbour);
+                }
+            }
+            for (TNode invertedNeigbour : u.inverted) {
+                int alt = u.cost + 1;
+                if (alt < invertedNeigbour.cost) {
+                    invertedNeigbour.cost = alt;
+                    components[invertedNeigbour.index].cost = alt;
+                    priorityQueue.offer(invertedNeigbour);
+                }
+            }
+        }
+    }
+
+    public void calculateReconfigurations() {
+
     }
 
     private void push(TNode v) {

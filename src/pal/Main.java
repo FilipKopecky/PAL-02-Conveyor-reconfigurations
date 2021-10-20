@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //TODO: add custom fast reader
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("datasets/pub03.in")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("datasets/pub01.in")));
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
 
         int numPoints = Integer.parseInt(tokenizer.nextToken());
@@ -30,11 +30,12 @@ public class Main {
             int source = Integer.parseInt(tokenizer.nextToken());
             int destination = Integer.parseInt(tokenizer.nextToken());
             graph[source].succ.add(graph[destination]);
+            graph[destination].inverted.add(graph[source]);
 
         }
 
 
-        Alg alg = new Alg(graph);
+        Alg alg = new Alg(graph, numPoints);
 
         for (int i = 0; i < numPoints; i++) {
             if(graph[i].tIndex==0)
@@ -42,6 +43,8 @@ public class Main {
                 alg.find_scc(graph[i]);
             }
         }
+
+        alg.Dijkstra(idCentral);
 
         System.out.println("Conveyor");
         // write your code here
