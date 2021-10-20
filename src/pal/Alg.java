@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class Alg {
-    public TNode stackTop;
-    public int index;
-    public int scc;
-    public TNode[] graph;
-    public ArrayList<Component> sccs;
+     TNode stackTop;
+     int index;
+     int scc;
+     TNode[] graph;
+     ArrayList<Component> sccs;
 
-    public Alg(TNode[] graph, int size) {
+    public Alg(TNode[] graph) {
         this.stackTop = null;
         index = 0;
         this.graph = graph;
@@ -19,7 +19,7 @@ public class Alg {
     }
 
 
-    public void find_scc(TNode v) {
+    final void find_scc(TNode v) {
         v.tIndex = v.lowlink = ++index;
         push(v);
         for (TNode w : v.succ) {
@@ -44,7 +44,7 @@ public class Alg {
         }
     }
 
-    public final void createGraphComponent()
+    final void createGraphComponent()
     {
         for (Component c: sccs) {
             for (TNode node:c.nodes) {
@@ -53,13 +53,14 @@ public class Alg {
                     {
                         c.neigbours.add(neigbor.scc);
                         neigbor.scc.invertedNeigbors.add(node.scc);
+                       // neigbor.scc.invertedNum++;
                     }
                 }
             }
         }
     }
 
-    public final void calculate()
+     final void calculate()
     {
         int reconfs = 0;
         for (Component c:sccs) {
@@ -70,7 +71,7 @@ public class Alg {
 
     }
 
-    public final void Dijkstra(int source) {
+     final void Dijkstra(int source) {
         graph[source].scc.cost = 0;
         PriorityQueue<Component> priorityQueue = new PriorityQueue<>();
         priorityQueue.offer(graph[source].scc);

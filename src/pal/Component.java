@@ -7,10 +7,12 @@ public class Component implements Comparable<Component>{
     ArrayList<TNode> nodes;
     ArrayList<Component> neigbours;
     ArrayList<Component> invertedNeigbors;
+  //  int invertedNum;
 
     public Component(int cost)
     {
         this.cost=cost;
+      //  this.invertedNum = 0;
         nodes = new ArrayList<>();
         neigbours = new ArrayList<>();
         invertedNeigbors = new ArrayList<>();

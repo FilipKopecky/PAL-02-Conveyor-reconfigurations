@@ -2,15 +2,14 @@ package pal;
 
 import java.util.ArrayList;
 
-public class TNode implements Comparable<TNode>  {
+public class TNode   {
     int index;
     int tIndex;
     int lowlink;
     TNode pred;
     boolean instack;
     ArrayList<TNode> succ;
-    ArrayList<TNode> inverted;
-    int cost;
+//    ArrayList<TNode> inverted;
     Component scc;
 
 
@@ -21,12 +20,8 @@ public class TNode implements Comparable<TNode>  {
         this.pred = pred;
         this.instack = instack;
         this.succ = new ArrayList<>();
-        this.inverted = new ArrayList<>();
-        this.cost = Integer.MAX_VALUE;
+       // this.inverted = new ArrayList<>();
+
     }
 
-    @Override
-    public int compareTo(TNode o) {
-        return this.cost-o.cost;
-    }
 }
